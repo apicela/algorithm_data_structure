@@ -1,10 +1,9 @@
 #include <stdio.h>
-
 int main()
 {
     FILE *file;
     char userDocument[400];
-    int caixaValor[2][2];
+    int caixaValor[1000][1000];
     int i,j, max=0, N, soma=0, fileira, coluna;
 
     printf("Digite o nome do arquivo de entrada: "); // "Enter the input file name"
@@ -13,7 +12,7 @@ int main()
     file = fopen(userDocument, "r");
     fscanf(file, "%d", &N);
     
-        for(i=0;i<N;i++)
+        for(i=0;i<N+1;i++)
         {
             for(j=1;j<i+1;j++)
             {
@@ -27,7 +26,7 @@ int main()
                 }
             }
         }
-    printf("Resposta: fileira %d, caixa %d\n", fileira, coluna); 
+    printf("Resposta: fileira %d, caixa %d.", fileira, coluna); 
     fclose(file);
     return 0;
 }
