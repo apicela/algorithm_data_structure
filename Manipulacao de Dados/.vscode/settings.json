@@ -27,5 +27,9 @@
     "**/.*/**",
     "**/.vscode",
     "**/.vscode/**"
+  ],
+  "cSpell.words": [
+    "caixa",
+    "Digite"
   ]
 }
