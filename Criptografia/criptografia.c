@@ -28,6 +28,7 @@ e assim por diante, mas deixando os outros como estão.
 int rngBinarie();
 int myPow();
 void removeChar();
+
 void removeChar(char *str, unsigned int index) {
     char *src;
     for (src = str+index; *src != '\0'; *src = *(src+1),++src) ;
@@ -59,10 +60,28 @@ return vbase;
 int main()
 {
   int numberPosition;
-char senha[1000]="01000hello";
+char senha[1000]="01000helokity";
+char par[1000]="", impar[1000]="";
+  int countPar=0;
+  int countImpar=0;
 numberPosition= rngBinarie(senha);
 removeChar(senha, numberPosition);
-printf("%s", senha);
+
+
+for(int i=0;i<strlen(senha);i++){
+    if(i%2==0)
+  {
+    par[countPar]=senha[i];
+    countPar++;
+  }
+  else
+  {
+    impar[countImpar]=senha[i];
+    countImpar++;
+  }
+}
+
+printf("senha %s\n", senha);
 return 0;
 }
 
