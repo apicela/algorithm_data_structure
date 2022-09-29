@@ -21,12 +21,3 @@ void dec2bin(int dec){
     }
 }
 
-int mult(int base, int exp){
-int vbase;
-if(exp==0){
-return 1;
-}
-else {
-vbase = base * mult(base, exp-1);
-return vbase;
-}

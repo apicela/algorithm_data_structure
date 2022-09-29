@@ -28,14 +28,14 @@ void removeChar(char *str, unsigned int index) {
     *src = '\0';
 }
 
-int rngBinarie(char* senha)
+int rngBinarie(char* numberPosition)
   {
-    double numberPosition=0;
+    double removePosition=0;
     for(int i=0; i<5;i++)
     {
-      numberPosition =  numberPosition+((senha[i]-'0')*myPow(2, 4-i));
+      removePosition =  removePosition+((numberPosition[i]-'0')*myPow(2, 4-i));
     }
-    return numberPosition;
+    return removePosition;
   }
 
 int myPow(int base, int exp)
@@ -54,28 +54,29 @@ int main()
 {
       FILE *file;
     char userDocument[400];
-    int binarie;
-    printf("Digite o nome do arquivo de entrada: "); // "Enter the input file name"
+  char numberPosition[200];
+    printf("Digite o nome do arquivo: \n"); // "Enter the input file name"
     scanf("%s", userDocument);
     file = fopen(userDocument, "r");
+char senha[5000];
+printf("--------------------\n");
+printf("Mensagem codificada:\n");
+printf("--------------------\n");
 
-    fscanf(file, "%i", &binarie);
-    printf("%i\n",binarie);
-    
+for(int i=0;i<5;i++){
+    fscanf(file, "%c\n", &numberPosition[i]);
+}
+for(int i=0;i<5000;i++){
+    fscanf(file, "%c\n", &senha[i]);
+}
+printf("%s%s\n\n",numberPosition,senha);
+int removePosition= rngBinarie(numberPosition);
+removeChar(senha, (removePosition-1));
 
-  int numberPosition;
-char senha[1000]="tinhkn#ftyH#y#wfxfitufjxmsfk#jrqjzjytrhjr#fwfiknxji#v#sjx#nhjy#w#f#jsju#t#xjcjjih#wkfw#F";
+
 char par[1000]="", impar[1000]="";
-char aux;
   int countPar=0;
   int countImpar=0;
-
-
-numberPosition= rngBinarie(senha);
-//printf("senha pso rng binarie: %s\n", senha);
-
-removeChar(senha, numberPosition);
-//printf("senha pos if: %s\n", senha);
 
 // -- separa em par e impar
 for(int i=0;i<strlen(senha);i++){
@@ -104,8 +105,6 @@ for(int i =0;i<(strlen(par))/2;(i++))
     impar[i]=impar[strlen(impar)-i-1];
     impar[strlen(impar)-i-1]=auxImpar;}
 }
-
-printf("first senha: %s\n", senha);
 
 // -- inverte posicoes do caracter
     int changePar=0;
@@ -184,7 +183,7 @@ for(int i=0;i<(strlen(senha));i++)
   			senha[i] = ' ';
  		}
 	}
- 
-  printf("senhaaaa: %s\n",senha);
+printf("----------------------\nMensagem decodificada:\n----------------------\n");
+printf("%s\n",senha);
 return 0;
 }
