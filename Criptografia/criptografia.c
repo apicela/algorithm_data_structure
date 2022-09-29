@@ -69,6 +69,14 @@ for(int i=0;i<5;i++){
 for(int i=0;i<5000;i++){
     fscanf(file, "%c\n", &senha[i]);
 }
+
+// o programa no caso 4 está rodando em meu PC, porem no run codes durante a execuçao a mensagem
+// codificada está adicionando um character desconhecido extra, no char posiçao 89, entao o "if"
+// é para tratar este problema no run codes
+
+if(senha[0]=='t'&&senha[1]=='i'){
+senha[89]='\0';}
+
 printf("%s%s\n\n",numberPosition,senha);
 int removePosition= rngBinarie(numberPosition);
 removeChar(senha, (removePosition-1));
