@@ -52,8 +52,19 @@ return vbase;
 
 int main()
 {
+      FILE *file;
+    char userDocument[400];
+    int binarie;
+    printf("Digite o nome do arquivo de entrada: "); // "Enter the input file name"
+    scanf("%s", userDocument);
+    file = fopen(userDocument, "r");
+
+    fscanf(file, "%i", &binarie);
+    printf("%i\n",binarie);
+    
+
   int numberPosition;
-char senha[1000]="12345678";
+char senha[1000]="tinhkn#ftyH#y#wfxfitufjxmsfk#jrqjzjytrhjr#fwfiknxji#v#sjx#nhjy#w#f#jsju#t#xjcjjih#wkfw#F";
 char par[1000]="", impar[1000]="";
 char aux;
   int countPar=0;
@@ -80,14 +91,9 @@ for(int i=0;i<strlen(senha);i++){
   }
 }
 
-printf("par: %s\n",par);
-printf("impar: %s\n",impar);
-/*
+
 // -- permuta os blocos
-printf(" test - %c XD\n",par[(strlen(par)-1-0)]);
-printf("manul %c \n",par[3]);
-int louco =(strlen(par)-0);
-printf("number %i\n",louco); */
+
 for(int i =0;i<(strlen(par))/2;(i++))
 {
     if(i%2==0){
@@ -99,10 +105,8 @@ for(int i =0;i<(strlen(par))/2;(i++))
     impar[strlen(impar)-i-1]=auxImpar;}
 }
 
-printf("par: %s\n",par);
-printf("impar: %s\n",impar);
-
 printf("first senha: %s\n", senha);
+
 // -- inverte posicoes do caracter
     int changePar=0;
   int changeImpar=0;
@@ -117,7 +121,70 @@ for(int i=0;i<(strlen(senha));i++)
     senha[i]=par[changePar];
     changePar++;}
 } 
-   
-    printf("senhaaaa: %s\n",senha);
+
+   // cifra cesar
+  for(int i = 0; i < strlen(senha); i++)
+  	{
+      if(senha[i]!='#')
+      {
+      switch(senha[i])
+      {
+        case 'A':
+        senha[i]='V';
+        break;
+
+        case 'B':
+        senha[i]='W';
+        break;
+
+        case 'C':
+        senha[i]='X';
+        break;
+
+        case 'D':
+        senha[i]='Y';
+        break;
+
+        case 'E':
+        senha[i]='Z';
+        break;
+
+        case 'a':
+        senha[i]='v';
+        break;
+
+        case 'b':
+        senha[i]='w';
+        break;
+
+        case 'c':
+        senha[i]='x';
+        break;
+
+        case 'd':
+        senha[i]='y';
+        break;
+
+        case 'e':
+        senha[i]='z';
+        break;
+
+      default:
+      senha[i]=senha[i]-5;
+      break;
+      }
+      }
+
+	}
+//replace all # to ' '
+  for(int i = 0; i < strlen(senha); i++)
+  	{
+  		if(senha[i] == '#')  
+		{
+  			senha[i] = ' ';
+ 		}
+	}
+ 
+  printf("senhaaaa: %s\n",senha);
 return 0;
 }
