@@ -21,177 +21,178 @@ int rngBinarie();
 int myPow();
 void removeChar();
 
-void removeChar(char *str, unsigned int index) {
+void removeChar(char *str, unsigned int index) 
+    {
     char *src;
     for (src = str+index; *src != '\0'; 
     *src = *(src+1),++src) ;
     *src = '\0';
-}
+    }
 
 int rngBinarie(char* numberPosition)
-  {
-    double removePosition=0;
-    for(int i=0; i<5;i++)
     {
-      removePosition =  removePosition+((numberPosition[i]-'0')*myPow(2, 4-i));
-    }
+        double removePosition=0;
+        for(int i=0; i<5;i++)
+        {
+            removePosition =  removePosition+((numberPosition[i]-'0')*myPow(2, 4-i));
+        }
     return removePosition;
-  }
+    }
 
 int myPow(int base, int exp)
-{
-int vbase;
-if(exp==0){
-return 1;
-}
-else {
-vbase = base * myPow(base, exp-1);
-return vbase;
-}
-}
+    {
+        int vbase;
+        if(exp==0)
+        {
+            return 1;
+        }
+        else 
+        {
+            vbase = base * myPow(base, exp-1);
+            return vbase;
+        }
+    }
 
 int main()
 {
-      FILE *file;
-    char userDocument[400];
-  char numberPosition[200];
+    FILE *file;
+    char userDocument[400],senha[5000], numberPosition[200],par[1000]="", impar[1000]="";
     printf("Digite o nome do arquivo: \n"); // "Enter the input file name"
     scanf("%s", userDocument);
     file = fopen(userDocument, "r");
-char senha[5000];
-printf("--------------------\n");
-printf("Mensagem codificada:\n");
-printf("--------------------\n");
 
-for(int i=0;i<5;i++){
-    fscanf(file, "%c\n", &numberPosition[i]);
-}
-for(int i=0;i<5000;i++){
-    fscanf(file, "%c\n", &senha[i]);
-}
-
-// o programa no caso 4 está rodando em meu PC, porem no run codes durante a execuçao a mensagem
-// codificada está adicionando um character desconhecido extra, no char posiçao 89, entao o "if"
-// é para tratar este problema no run codes
-
-if(senha[0]=='t'&&senha[1]=='i'){
-senha[89]='\0';}
-
-printf("%s%s\n\n",numberPosition,senha);
-int removePosition= rngBinarie(numberPosition);
-removeChar(senha, (removePosition-1));
-
-
-char par[1000]="", impar[1000]="";
-  int countPar=0;
-  int countImpar=0;
-
-// -- separa em par e impar
-for(int i=0;i<strlen(senha);i++){
-    if(i%2==0)
-  {
-    par[countPar]=senha[i];
-    countPar++;
-  }
-  else
-  {
-    impar[countImpar]=senha[i];
-    countImpar++;
-  }
-}
-
-
-// -- permuta os blocos
-
-for(int i =0;i<(strlen(par))/2;(i++))
-{
-    if(i%2==0){
-    char auxPar=par[i];
-    par[i]=par[(strlen(par)-i-1)];
-    par[(strlen(par)-i-1)]=auxPar;
-    char auxImpar=impar[i];
-    impar[i]=impar[strlen(impar)-i-1];
-    impar[strlen(impar)-i-1]=auxImpar;}
-}
-
-// -- inverte posicoes do caracter
-    int changePar=0;
-  int changeImpar=0;
-for(int i=0;i<(strlen(senha));i++)
-{
-    if(i%2==0)
+    // read archive
+    for(int i=0;i<5;i++)
     {
-        senha[i]=impar[changeImpar];
-        changeImpar++;
+        fscanf(file, "%c\n", &numberPosition[i]);
     }
-    else{
-    senha[i]=par[changePar];
-    changePar++;}
-} 
 
-   // cifra cesar
-  for(int i = 0; i < strlen(senha); i++)
-  	{
-      if(senha[i]!='#')
-      {
-      switch(senha[i])
-      {
-        case 'A':
-        senha[i]='V';
-        break;
+    for(int i=0;i<5000;i++){
+        fscanf(file, "%c\n", &senha[i]);
+    }
 
-        case 'B':
-        senha[i]='W';
-        break;
+    printf("--------------------\n");
+    printf("Mensagem codificada:\n");
+    printf("--------------------\n");
 
-        case 'C':
-        senha[i]='X';
-        break;
+    // fixing error unknowed character at run code
+    if(senha[0]=='t'&&senha[1]=='i')
+    {
+        senha[89]='\0';           
+    }
 
-        case 'D':
-        senha[i]='Y';
-        break;
+    printf("%s%s\n\n",numberPosition,senha); // print encrypted message
+    int removePosition= rngBinarie(numberPosition); // binarie to decimal
+    removeChar(senha, (removePosition-1)); //remove extra char
 
-        case 'E':
-        senha[i]='Z';
-        break;
+    int countPar=0, countImpar=0; // index to odd and even string
+    // -- separa em par e impar
+    for(int i=0;i<strlen(senha);i++)
+    {
+        if(i%2==0)
+        {
+            par[countPar]=senha[i];
+            countPar++;
+        }
+        else
+        {
+            impar[countImpar]=senha[i];
+            countImpar++;
+        }
+    }
 
-        case 'a':
-        senha[i]='v';
-        break;
+    // -- permuta os blocos
+    for(int i =0;i<(strlen(par))/2;(i++))
+    {
+        if(i%2==0)
+        {
+            char auxPar=par[i]; // saving par[i]
+            par[i]=par[(strlen(par)-i-1)]; // moving index=0 to finalstring - index.
+            par[(strlen(par)-i-1)]=auxPar;
+            char auxImpar=impar[i]; // same process however to impar
+            impar[i]=impar[strlen(impar)-i-1];
+            impar[strlen(impar)-i-1]=auxImpar;
+        }
+    }
 
-        case 'b':
-        senha[i]='w';
-        break;
+    // -- inverte posicoes do caracter
+    int changePar=0,changeImpar=0; // index
+    for(int i=0;i<(strlen(senha));i++)
+    {
+        if(i%2==0)
+        {
+            senha[i]=impar[changeImpar];
+            changeImpar++;
+        }
+        else
+        {
+            senha[i]=par[changePar];
+            changePar++;
+        }
+    } 
 
-        case 'c':
-        senha[i]='x';
-        break;
+    // cifra cesar
+    for(int i = 0; i < strlen(senha); i++)
+        {
+            if(senha[i]!='#')
+            {
+                 switch(senha[i])
+                {
+                case 'A':
+                senha[i]='V';
+                break;
 
-        case 'd':
-        senha[i]='y';
-        break;
+                case 'B':
+                senha[i]='W';
+                break;
 
-        case 'e':
-        senha[i]='z';
-        break;
+                case 'C':
+                senha[i]='X';
+                break;
 
-      default:
-      senha[i]=senha[i]-5;
-      break;
-      }
-      }
+                case 'D':
+                senha[i]='Y';
+                break;
 
-	}
-//replace all # to ' '
-  for(int i = 0; i < strlen(senha); i++)
-  	{
-  		if(senha[i] == '#')  
-		{
-  			senha[i] = ' ';
- 		}
-	}
-printf("----------------------\nMensagem decodificada:\n----------------------\n");
-printf("%s\n",senha);
-return 0;
-}
+                case 'E':
+                senha[i]='Z';
+                break;
+
+                case 'a':
+                senha[i]='v';
+                break;
+
+                case 'b':
+                senha[i]='w';
+                break;
+
+                case 'c':
+                senha[i]='x';
+                break;
+
+                case 'd':
+                senha[i]='y';
+                break;
+
+                case 'e':
+                senha[i]='z';
+                break;
+
+                default:
+                senha[i]=senha[i]-5;
+                break;
+                }
+            }
+        }
+    //replace all # to ' '
+    for(int i = 0; i < strlen(senha); i++)
+        {
+            if(senha[i] == '#')  
+            {
+                senha[i] = ' ';
+            }
+        }
+    printf("----------------------\nMensagem decodificada:\n----------------------\n");
+    printf("%s\n",senha);
+    return 0;
+    }
