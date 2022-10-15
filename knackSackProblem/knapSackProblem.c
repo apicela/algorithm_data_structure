@@ -71,6 +71,7 @@ int main()
         printf("%d %d\n", itemPrice[i],itemWeight[i]);
     }
 
+printf("- - - -\n");
 
 // END TESTS
 
@@ -84,7 +85,7 @@ int main()
             }
             else if(itemWeight[j]<=i) // NEED A SERIOUSLY REWORK
             {
-                table[i][j]=max((itemPrice[i]+table[j-i][j]), table[i-1][j]);
+                table[i][j]=max((itemPrice[j]+table[i-j][j-1]), table[i-1][j]);
             }
             else
             {
@@ -97,7 +98,8 @@ int main()
         {
 for(int j=0; j<=items; j++)
     {
-        printf("%d%d  %d  ", i,j,table[i][j]);
+        //printf("%d%d  %d  ", i,j,table[i][j]);
+        printf("%d ", table[i][j]);
         }
         printf("\n");
     }
