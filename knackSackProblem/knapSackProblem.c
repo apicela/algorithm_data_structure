@@ -23,59 +23,52 @@ int main()
     
     scanf("%s", userDocument);
     file = fopen(userDocument, "r");
+
+// READING DATA ARCHIVE  --  **     LINES 29-59      **
+
     // read quantity bags
     fscanf(file,"%d\n", &bags); 
 
-         // read capacity bags
-        for(int i=0; i<bags;i++)  // OK
-        {
-            fscanf(file,"%d", &slotsBags[i]);
-        }
+    // read capacity bags
+    for(int i=0; i<bags;i++)  // OK
+    {
+        fscanf(file,"%d", &slotsBags[i]);
+    }
+
     // read quantity items
     fscanf(file,"%d",&items);
 
-        // read weight and price for each item
-        for(int i=1; i<items+1;i++) // OK
-        {
-            fscanf(file,"%d %d\n", &itemWeight[i],&itemPrice[i]);
-        }
-
-         // read picked item
-        for(int i=0; i<items;i++)
-        {
-            for(int j=1; j<=bags;j++)
-            {
-                if(j==bags)
-                {
-                    fscanf(file,"%d\n", &choice[i][j]);
-                }
-                else
-                fscanf(file,"%d", &choice[i][j]);
-            }
-        }
-    
-        for(int i=0; i<bags; i++) // OK
-        {
-            if(slotsBags[i]>maxSlots)
-            {
-                maxSlots = slotsBags[i];
-            }
-        }
-// ------ TESTS AREA
-/*
-    // idea: create a dynamic program 
-    printf("max %d\n", maxSlots);
-    printf("items: %d\n",items);
-    printf("weight 4: %d\n", itemWeight[4]);
-    for(int i=1; i<=items; i++)
+    // read weight and price for each item
+    for(int i=1; i<items+1;i++) // OK
     {
-        printf("%d %d\n", itemPrice[i],itemWeight[i]);
+       fscanf(file,"%d %d\n", &itemWeight[i],&itemPrice[i]);
     }
 
-printf("- - - -\n");
-*/
-// END TESTS
+    // read picked item
+    for(int i=0; i<items;i++)
+    {
+        for(int j=1; j<=bags;j++)
+        {
+            if(j==bags)
+            {
+                fscanf(file,"%d\n", &choice[i][j]);
+            }
+            else
+                fscanf(file,"%d", &choice[i][j]);
+        }
+    }
+    
+    // CALCULATING MAX SLOTS OF BAGS TO CREATE A TABLE
 
+    for(int i=0; i<bags; i++) 
+    {
+        if(slotsBags[i]>maxSlots)
+        {
+            maxSlots = slotsBags[i];
+        }
+    }
+
+    // CREATING A TABLE WITH BEST SOLUTIONS TO MY KNACK_SACK_PROBLEM
     for(int i=0; i<=maxSlots; i++) 
     {
         for(int j=0;j<=(items); j++) 
@@ -84,8 +77,10 @@ printf("- - - -\n");
             {
                 table[i][j]=0;
             }
-            else if(itemWeight[j]<=i) // NEED A SERIOUSLY REWORK
+            else if(itemWeight[j]<=i) 
             {
+            // CAN CHECK USED TABLES TO ANALYZE CHOICES TO table[i][j] here: 
+            // https://github.com/jamilzin1/AEDS-I/tree/master/knackSackProblem/tableToAnalyzeFormuleElseIF.PNG
                 table[i][j]=max((itemPrice[j]+table[i-itemWeight[j]][j-1]), table[i][j-1]);
             }
             else
@@ -94,32 +89,27 @@ printf("- - - -\n");
             }
         }
     } 
-/*
-    for(int i=0;i<=maxSlots; i++)
+
+    // GETTING VALUE OF SELECTED ITEMS FROM BAG
+    for(int i=0;i<bags;i++)
+    {
+        for(int k=0;k<items;k++)
         {
-        for(int j=0; j<=items; j++)
-            {
-                //printf("%d%d  %d  ", i,j,table[i][j]);
-                printf("%d ", table[i][j]);
-            }
-            printf("\n");
-            } */
+            amountItems[i]=amountItems[i]+choice[k][i+1]*itemPrice[k+1]; 
+        }
+    }
 
-    // GET PICKED ITEMS BY BAG
+    // CHECKING IF CAPACITY BAG LESSER THAN SELECTED ITEMS
     for(int i=0;i<bags;i++)
     {
-    for(int k=0;k<items;k++){
-    amountItems[i]=amountItems[i]+choice[k][i+1]*itemPrice[k+1];
-    }
-    }
-
-    for(int i=0;i<bags;i++)
-    {
-    for(int k=0;k<items;k++){
-    amountWeight[i]=amountWeight[i]+choice[k][i+1]*itemWeight[k+1];
-    }
+        for(int k=0;k<items;k++)
+        {
+            amountWeight[i]=amountWeight[i]+choice[k][i+1]*itemWeight[k+1];
+        }
     }
 
+
+    // COMPARING VALUE FROM TABLE BEST CHOICES VS CHOICES FROM BAG
     int otimo, error;
     for(int i=0; i<bags;i++)
     {
@@ -132,6 +122,9 @@ printf("- - - -\n");
     }
     }
 
+    // PRINTING RESULT OF CHOICE ITEMS FROM BAG
+
+
     if(otimo==1)
     {
         printf("Solucao otima.\n");
@@ -143,20 +136,4 @@ printf("- - - -\n");
     else {
     printf("Solucao viavel mas nao otima.\n");
     }
-
-
-    /*
-    printf("lol :%d \n", amountItems[0]);
-       printf("\n-----\n");
-
-    for(int i=0; i<items;i++)
-        {
-            for(int j=1; j<=bags;j++)
-            {
-                printf("%d ", choice[i][j]);
-            }
-            printf("\n");
-        } 
-    
-*/
 }
