@@ -24,10 +24,10 @@ int main()
     scanf("%s", userDocument);
     file = fopen(userDocument, "r");
     // read quantity bags
-    fscanf(file,"%d\n", &bags);
+    fscanf(file,"%d\n", &bags); 
 
          // read capacity bags
-        for(int i=0; i<bags;i++)
+        for(int i=0; i<bags;i++)  // OK
         {
             fscanf(file,"%d", &slotsBags[i]);
         }
@@ -35,7 +35,7 @@ int main()
     fscanf(file,"%d",&items);
 
         // read weight and price for each item
-        for(int i=0; i<items;i++)
+        for(int i=1; i<items+1;i++) // OK
         {
             fscanf(file,"%d %d\n", &itemWeight[i],&itemPrice[i]);
         }
@@ -54,45 +54,54 @@ int main()
             }
         }
     
-        for(int i=0; i<bags; i++)
+        for(int i=0; i<bags; i++) // OK
         {
             if(slotsBags[i]>maxSlots)
             {
                 maxSlots = slotsBags[i];
             }
         }
-
+// ------ TESTS AREA
     // idea: create a dynamic program 
     printf("max %d\n", maxSlots);
     printf("items: %d\n",items);
-    
-    for(int i=0; i<=maxSlots+1; i++)
+    printf("weight 4: %d\n", itemWeight[4]);
+    for(int i=1; i<=items; i++)
     {
-        for(int j=0;j<=(items+1); j++)
+        printf("%d %d\n", itemPrice[i],itemWeight[i]);
+    }
+
+
+// END TESTS
+
+    for(int i=0; i<=maxSlots; i++) 
+    {
+        for(int j=0;j<=(items); j++) 
         {
             if(i==0 | j==0)
             {
                 table[i][j]=0;
             }
-            else if(itemWeight[i]<=j)
+            else if(itemWeight[j]<=i) // NEED A SERIOUSLY REWORK
             {
-                table[i][j]=max((itemPrice[i]+table[i-1][j-i]), table[i-1][j]);
+                table[i][j]=max((itemPrice[i]+table[j-i][j]), table[i-1][j]);
             }
             else
             {
-                table[i][j]=table[i-1][j];
+                table[i][j]=table[i][j-1];
             }
         }
     } 
-        for(int j=0;j<maxSlots; j++)
+
+        for(int i=0;i<=maxSlots; i++)
         {
-for(int i=0; i<items; i++)
+for(int j=0; j<=items; j++)
     {
-        printf("%d%d - %d  ", i,j,table[i][j]);
+        printf("%d%d  %d  ", i,j,table[i][j]);
         }
         printf("\n");
     }
-printf("%d",table[6][10]);
+printf("%d ",table[7][4]);
 
 
 }
