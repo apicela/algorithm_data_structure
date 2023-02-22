@@ -6,7 +6,7 @@
 caso tenha uma quantidade ímpar de letras; <Br>
 • Substituir cada letra por outra, utilizando a cifra de César com uma rotação 
 à esquerda de cinco posições; <Br>
-• Subdividir a mensagem em blocos de n letras (neste caso n=2);
+• Subdividir a mensagem em blocos de n letras (neste caso n=2); <Br>
 • Refletir cada bloco; <Br>
 • Permutar os blocos trocando o primeiro com o último, o terceiro com a antepenúltimo, 
 e assim por diante, mas deixando os outros como estão. <Br>
